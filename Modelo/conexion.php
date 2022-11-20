@@ -7,13 +7,12 @@
 		$pass = "";
 		$baseDatos = "pac3_daw";
 
-		// Completar...
+		return $conexion = new mysqli($host, $user, $pass, $baseDatos);
 	}
 
 
 	function cerrarConexion($conexion) {
-		// Completar...
+		return $conexion = mysqli_close($conexion);
 	}
-
 
 ?>
