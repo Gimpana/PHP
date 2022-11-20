@@ -16,7 +16,14 @@
 		if(!isset($_COOKIE["tipo"]) or ($_COOKIE["tipo"] != "Autorizado")){
 			echo "No tienes permiso para estar aquí";
 		}
-		else{
+
+	?>
+	<?php
+	
+	
+	
+	
+	?>	else{
 			if(isset($_GET["Editar"])){
 				$id = $_GET["Editar"];
 				$producto = getProducto($id);
@@ -28,7 +35,7 @@
 
 				echo '<form action="'. $_SERVER["PHP_SELF"] .'" method="POST">
 				ID: <input type="text" name="ID" id="" value=' . $id . '><br>
-				Nombre: <input type="text" name="Nombre" id="" value='. $nombre .'><br>
+				<label>Nombre:</label> <input type="text" name="Nombre" id="" value="'.$nombre.'"><br>
 				Coste: <input type="text" name="Coste" id="" value=' . $coste . '><br>
 				Precio: <input type="text" name="Precio" id="Precio" value=' . $precio . '><br>
 				<label>Categoría:</label><select name="Categoría"> ';
@@ -38,7 +45,6 @@
 				echo '</select><br>
 				<input type="submit" name="Editar" value="Editar"><br>
 				</form>';
-				echo "<p> " . $fila['Name'] . " </p>";
 
 				echo "<a href='/PHP_DESARROLLO/Vista/articulos.php'>Volver a la tabla Articulos</a>";
 			}
@@ -67,7 +73,7 @@
 
 				echo '<form action="'. $_SERVER["PHP_SELF"] .'" method="POST">
 				ID: <input type="text" name="ID" id="" value=' . $id . '><br>
-				Nombre: <input type="text" name="Nombre" id="" value='. $nombre .'><br>
+				Nombre: <input type="text" name="Nombre" id="" value="'.$nombre.'"><br>
 				Coste: <input type="text" name="Coste" id="" value=' . $coste . '><br>
 				Precio: <input type="text" name="Precio" id="Precio" value=' . $precio . '><br>
 				<label>Categoría:</label><select name="Categoría"> ';
@@ -90,6 +96,7 @@
 			$Categoría = $_POST["Categoría"];
 			$resultado = anadirProducto($Nombre, $Coste, $Precio, $Categoría);
 			if($resultado){
+				
 				echo "<p>Productos Añadidos</p>";
 				echo "<a href='/PHP_DESARROLLO/Vista/index.php'>Volver al inicio</a>";
 			}
@@ -122,7 +129,7 @@
 			$producto = getProducto($id);
 			$resultado = borrarProducto($id);
 			if($resultado){
-				echo "<p>Productos Borrado</p>";
+				echo "<p>Producto Borrado</p>";
 				echo "<a href='/PHP_DESARROLLO/Vista/articulos.php'>Volver a la tabla Articulos</a>";
 			}
 			else{

@@ -35,7 +35,7 @@
 					echo "Hola $usuario. Pulsa <a href='articulos.php'>Aquí</a> para entrar al panel de articulos.";
 					break;
 				case "Resgistrado": 
-					echo "Hola $usuario. No tienes los permisos para ingresar.";
+					echo "Hola $usuario. Estas registrado pero no tienes los permisos para ingresar.";
 					break;
 				default:
 					echo "No tenemos registro del usuario ingresado";
