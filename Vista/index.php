@@ -25,9 +25,9 @@
 		if(isset($_POST["ingresar"])){
 			$usuario = $_POST["usuario"];
 			$correo = $_POST["correo"];
-			$tipoUsuario = tipoUsuario($usuario, $correo);
-			setcookie("tipoUsuario", $tipoUsuario, time()+84600);
-			switch($tipoUsuario) {
+			$tipo = tipoUsuario($usuario, $correo);
+			setcookie("tipo", $tipo, time()+84600);
+			switch($tipo) {
 				case "Super":
 					echo "Hola $usuario. Pulsa <a href='usuarios.php'>Aquí</a> para entrar al panel de usuarios";
 					break;

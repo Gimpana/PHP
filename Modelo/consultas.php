@@ -93,10 +93,10 @@
 		$conexion = crearConexion();
 		$implement = $conexion->query(" SELECT * FROM product WHERE ProductID = $ID");
 		cerrarConexion($conexion);
-		$comp = mysqli_fetch_array($implement);
+		//$comp = mysqli_fetch_array($implement);
 
 		//Devuelve una tabla virtual con todos los datos que corresponden al producto cuyo identificador es $ID.
-		return $comp;
+		return $implement;
 	}
 
 	//Recibe el $orden por el que deben ordenarse los productos.
@@ -129,7 +129,7 @@
 	function borrarProducto($id) {
 		$conexion = crearConexion();
 		//Elimina ese producto de la base de datos.
-		$implement = $conexion->query("DELETE FROM product qhere ProductID = $id");
+		$implement = $conexion->query("DELETE  FROM product where ProductID = $id");
 		cerrarConexion($conexion);
 
 		return $implement;

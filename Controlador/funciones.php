@@ -3,7 +3,15 @@
 	include "../Modelo/consultas.php";
 
 	function pintaCategorias($defecto) {
-		// Completar...	
+		$categori = getCategorias();
+		while($fila = mysqli_fetch_assoc($categori)){
+			if($fila["CategoryID"] == $defecto){
+				echo "<option value=". $fila["CategoryID"] ." selected>". $fila["Name"] ."</option>";
+			}
+			else{
+				echo "<option value=". $fila["CategoryID"] .">". $fila["Name"] ."</option>";
+			}
+		}
 	}
 	
 
@@ -41,7 +49,6 @@
 	function pintaProductos($orden) {
 		if ($orden){
 			$listaArray = getProductos($orden);
-			//echo $listaArray;
 			echo "<table border = 1>
 					<tr>
 						<th><a href='articulos.php?orden=ProductID'>ID</a></th>
@@ -51,22 +58,29 @@
 						<th><a href='articulos.php?orden=CategoryID'>Categoría</a></th>
 						<th>Acción</th>
 					</tr>";
-			//echo $listaArray;
 
 			
 			if (mysqli_num_rows($listaArray) > 0){
 				while($fila = mysqli_fetch_assoc($listaArray)){
+					$producto = $fila['ProductID'];
+					$nombre = $fila['Name'];
+					$coste = $fila['Cost'];
+					$precio = $fila['Price'];
+					$id = $fila['CategoryID'];
 					echo "<tr>";
-					echo "<td>". $fila['ProductID'] . "</td>";
-					echo "<td>". $fila['Name'] . "</td>";
-					echo "<td>". $fila['Cost'] . "</td>";
-					echo "<td>". $fila['Price'] . "</td>";
-					echo "<td>". $fila['CategoryID'] . "</td>";
-					//echo "<td>". $fila['Acción'] . "</td>";
+					echo "<td>". $producto . "</td>";
+					echo "<td>". $nombre . "</td>";
+					echo "<td>". $coste . "</td>";
+					echo "<td>". $precio . "</td>";
+					echo "<td>". $id . "</td>";
+					echo "<td>";
+					echo " <a href='formArticulos.php?Editar=" .$fila['ProductID']."'>Editar</a> - <a href='formArticulos.php?Borrar=" . $fila['ProductID'] . "'>Borrar</a> ";
+					echo "</td>";
 					echo "</tr>";
 					}
 				}
 				echo "</table>";
+				
 			}
 				
 	}

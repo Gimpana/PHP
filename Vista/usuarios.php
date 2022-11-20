@@ -11,7 +11,7 @@
 
 		include "../Controlador/funciones.php";
 
-		if(!isset($_COOKIE["tipoUsuario"]) or ($_COOKIE["tipoUsuario"] != "Super")){
+		if(!isset($_COOKIE["tipo"]) or ($_COOKIE["tipo"] != "Super")){
 			echo "No tienes permiso para estar aquí";
 		}
 		else {
@@ -43,7 +43,7 @@
 
 	?>
 	
-	<a href="/PHP_DESARROLLO/Vista/index.php">Volver al inicio</a>
+	<a href='/PHP_DESARROLLO/Vista/index.php'>Volver al inicio</a>
 
 </body>
 </html>
