@@ -1,3 +1,5 @@
+
+/*En aquellos usuarios que estén autorizados, cambiará el color de fondo de la columna de Autorizado.*/
 table, tr, th.rojo {
 	background: tomato;
 }
