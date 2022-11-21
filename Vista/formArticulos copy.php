@@ -12,54 +12,61 @@
 		include "../Controlador/funciones.php";
 		//include "../Modelo/consultas.php";
 
+		//Comprobará si el acceso a esta página se ha hecho por un usuario que tiene los permisos suficientes, comprobando la cookie creada en index.php.
 		$comp = getPermisos();
 		if(!isset($_COOKIE["tipo"]) or ($_COOKIE["tipo"] != "Autorizado")){
 			echo "No tienes permiso para estar aquí";
 		}
-		else{
-			if(isset($_GET["Editar"])){
-				$id = $_GET["Editar"];
-				$producto = getProducto($id);
-				$fila = mysqli_fetch_assoc($producto);
-				$nombre = $fila['Name'];
-				$coste = $fila['Cost'];
-				$precio = $fila['Price'];
-				$categori = $fila['CategoryID'];
+		elseif(isset($_GET["Editar"])){
+			//En el caso de venir al formulario para Editar, mostrará el formulario completo con los datos del producto que se va a editar y el botón de Editar. 
+			//Al realizar las modificaciones y pulsar sobre el botón, se modificará el producto en la base de datos y mostrará un mensaje de que el producto se ha modificado.
+			$id = $_GET["Editar"];
+			$producto = getProducto($id);
+			$fila = mysqli_fetch_assoc($producto);
+			$nombre = $fila['Name'];
+			$coste = $fila['Cost'];
+			$precio = $fila['Price'];
+			$categori = $fila['CategoryID'];
+			echo $id;
 
-				echo '<form action="'. $_SERVER["PHP_SELF"] .'" method="POST">
-				ID: <input type="text" name="ID" id="" value=' . $id . '><br>
-				Nombre: <input type="text" name="Nombre" id="" value='. $nombre .'><br>
-				Coste: <input type="text" name="Coste" id="" value=' . $coste . '><br>
-				Precio: <input type="text" name="Precio" id="Precio" value=' . $precio . '><br>
+			echo '<form action="'. $_SERVER["PHP_SELF"] .'" method="POST">
+				ID: <input type="text" name="ID" id="" value="' .$id. '" disabled><br>
+				<label>Nombre:</label> <input type="text" name="Nombre" id="" value="'.$nombre.'" required><br>
+				Coste: <input type="text" name="Coste" id="" value=' . $coste . ' required><br>
+				Precio: <input type="text" name="Precio" id="Precio" value=' . $precio . ' required><br>
 				<label>Categoría:</label><select name="Categoría"> ';
-				
-				echo pintaCategorias($categori);
 
-				echo '</select><br>
+			echo pintaCategorias($categori);
+			echo '</select><br>
+				
 				<input type="submit" name="Editar" value="Editar"><br>
 				</form>';
 
-				echo "<a href='/PHP_DESARROLLO/Vista/articulos.php'>Volver a la tabla Articulos</a>";
-			}
-			elseif(isset($_GET["Anadir"])){
-				
-				echo '<form action="'. $_SERVER["PHP_SELF"] .'" method="POST">
+
+			echo "<a href='/PHP_DESARROLLO/Vista/articulos.php'>Volver a la tabla Articulos</a>";
+		}
+			//En el caso de venir al formulario para Añadir, mostrará un formulario vacío y el botón de Añadir. Al completar todos los datos y pulsar sobre el botón, 
+			//se añadirá el producto a la base de datos y mostrará un mensaje de que el producto se ha añadido.
+		elseif(isset($_GET["Anadir"])){
+			echo '<form action="'. $_SERVER["PHP_SELF"] .'" method="POST">
+				ID: <input type="text" name="ID" id="" value="" disabled><br>
 				Nombre: <input type="text" name="Nombre" id="" required><br>
 				Coste: <input type="text" name="Coste" id="" required><br>
 				Precio: <input type="text" name="Precio" id="" required><br>
 				<label>Categoría:</label><select name="Categoría" required> ';
 
-				echo pintaCategorias($categori);
-
-				echo '</select><br>
+			echo pintaCategorias($categori);
+			echo '</select><br>
+				
 				<input type="submit" name="Agregar" value="Agregar"><br>
 				</form>';
 
-				echo "<a href='/PHP_DESARROLLO/Vista/articulos.php'>Volver a la tabla Articulos</a>";
-			}
+			echo "<a href='/PHP_DESARROLLO/Vista/index.php'>Volver a la tabla Articulos</a>";
+		}
 			
-	
-			elseif(isset($_GET["Borrar"])){
+			//En caso de venir al formulario para Borrar, mostrará el formulario completo con los datos del producto que se va a borrar y el botón de Borrar. 
+			//Al pulsar sobre el botón, se eliminará el producto de la base de datos y mostrará un mensaje de que le producto se ha borrado.
+		elseif(isset($_GET["Borrar"])){
 				$id = $_GET["Borrar"];
 				$producto = getProducto($id);
 				$fila = mysqli_fetch_assoc($producto);
@@ -67,12 +74,13 @@
 				$coste = $fila['Cost'];
 				$precio = $fila['Price'];
 				$categori = $fila['CategoryID'];
+
 				echo '<form action="'. $_SERVER["PHP_SELF"] .'" method="POST">
 				ID: <input type="text" name="ID" id="" value=' . $id . '><br>
-				Nombre: <input type="text" name="Nombre" id="" value='. $nombre .'><br>
-				Coste: <input type="text" name="Coste" id="" value=' . $coste . '><br>
-				Precio: <input type="text" name="Precio" id="Precio" value=' . $precio . '><br>
-				<label>Categoría:</label><select name="Categoría"> ';
+				Nombre: <input type="text" name="Nombre" id="" value="'.$nombre.'" required><br>
+				Coste: <input type="text" name="Coste" id="" value=' . $coste . ' required><br>
+				Precio: <input type="text" name="Precio" id="Precio" value=' . $precio . ' required><br>
+				<label>Categoría:</label><select name="Categoría" required> ';
 				
 				echo pintaCategorias($categori);
 
@@ -80,8 +88,6 @@
 				<input type="submit" name="Borrar" value="Borrar"><br>
 				</form>';
 				echo "<a href='/PHP_DESARROLLO/Vista/articulos.php'>Volver a la tabla Articulos</a>";
-			}
-			
 		}
 		
 		if(isset($_POST["Agregar"])){
@@ -105,14 +111,27 @@
 				</form>';
 				echo "<p>Producto Añadido</p>";
 				echo "<a href='/PHP_DESARROLLO/Vista/articulos.php'>Volver a la tabla Articulos</a>";
+				
 			}
 			else{
+				echo '<form action="'. $_SERVER["PHP_SELF"] .'" method="POST">
+				ID: <input type="text" name="ID" id="" value=""><br>
+				Nombre: <input type="text" name="Nombre" id="" value=""><br>
+				Coste: <input type="text" name="Coste" id="" value=""><br>
+				Precio: <input type="text" name="Precio" id="Precio" value=""><br>
+				<label>Categoría:</label><select name="Categoría"> ';
+				
+				echo pintaCategorias($categori);
+
+				echo '</select><br>
+				<input type="submit" name="Agregar" value="Agregar"><br>
+				</form>';
 				echo "<p>Productos no Añadidos</p>";
 				echo "<a href='/PHP_DESARROLLO/Vista/articulos.php'>Volver a la tabla Articulos</a>";
 			}
 
 		}
-		elseif(isset($_POST["Editar"])){
+		elseif($_POST["Editar"]){
 			$id = $_POST["ID"];
 			$Nombre = $_POST["Nombre"];
 			$Coste = $_POST["Coste"];
@@ -136,14 +155,27 @@
 				echo "<a href='/PHP_DESARROLLO/Vista/articulos.php'>Volver a la tabla Articulos</a>";
 			}
 			else{
+				echo '<form action="'. $_SERVER["PHP_SELF"] .'" method="POST">
+				ID: <input type="text" name="ID" id="" value=""><br>
+				Nombre: <input type="text" name="Nombre" id="" value=""><br>
+				Coste: <input type="text" name="Coste" id="" value=""><br>
+				Precio: <input type="text" name="Precio" id="Precio" value=""><br>
+				<label>Categoría:</label><select name="Categoría"> ';
+				
+				echo pintaCategorias($categori);
+
+				echo '</select><br>
+				<input type="submit" name="Editar" value="Editar"><br>
+				</form>';
 				echo "<p>Productos no Editado</p>";
 				echo "<a href='/PHP_DESARROLLO/Vista/articulos.php'>Volver a la tabla Articulos</a>";
-
 			}
 
 		}
+
 		elseif(isset($_POST["Borrar"])){
 			$id = $_POST["ID"];
+			$producto = getProducto($id);
 			$resultado = borrarProducto($id);
 			if($resultado){
 				echo '<form action="'. $_SERVER["PHP_SELF"] .'" method="POST">
@@ -162,7 +194,19 @@
 				echo "<a href='/PHP_DESARROLLO/Vista/articulos.php'>Volver a la tabla Articulos</a>";
 			}
 			else{
-				echo "<p>Productos no Editado</p>";
+				echo '<form action="'. $_SERVER["PHP_SELF"] .'" method="POST">
+				ID: <input type="text" name="ID" id="" value=""><br>
+				Nombre: <input type="text" name="Nombre" id="" value=""><br>
+				Coste: <input type="text" name="Coste" id="" value=""><br>
+				Precio: <input type="text" name="Precio" id="Precio" value=""><br>
+				<label>Categoría:</label><select name="Categoría"> ';
+				
+				echo pintaCategorias($categori);
+
+				echo '</select><br>
+				<input type="submit" name="Borrar" value="Borrar"><br>
+				</form>';
+				echo "<p>Productos no Borrado</p>";
 				echo "<a href='/PHP_DESARROLLO/Vista/articulos.php'>Volver a la tabla Articulos</a>";
 			}
 

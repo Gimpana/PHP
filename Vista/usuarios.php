@@ -25,7 +25,7 @@
 				echo '<p><input type="submit" value="Cambiar permisoso" name="cambiar"></p></form>';
 				echo pintaTablaUsuarios();
 				//Tendrá un enlace que permitirá volver a index.php.
-				echo "<a href='/PHP_DESARROLLO/Vista/index.php'>Volver al inicio</a>";
+				echo "<a href='/PHP_DESARROLLO/Vista/index.php'>Volver al index</a>";
 		}
 	?>
 
